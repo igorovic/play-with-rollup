@@ -20,7 +20,7 @@ export default function importNjk(options = {}) {
 			if ( !filter( id ) ) return null;
 
 			const data = readFileSync( id, 'base64' );
-			const code = `const base = '${data}'; export default base;`;
+			const code = `const tmpl = '${data}'; const buf = Buffer.from(tmpl, 'base64'); function Template(){return buf.toString();}; export default Template;`;
             console.log(id, data)
 			const ast = {
 				type: 'Program',
@@ -31,6 +31,18 @@ export default function importNjk(options = {}) {
 			};
 
 			return { ast, code, map: { mappings: '' } };
+		},
+
+        transform(code, id) {
+            console.log('transform', code);
+			if (filter(id)) {
+				const x = {
+					code,
+					map: { mappings: '' }
+				};
+
+				return x;
+			}
 		}
         
     }
