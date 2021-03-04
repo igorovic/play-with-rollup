@@ -1,7 +1,7 @@
   
 import fs from "fs";
 import path from "path";
-//import typescript from "@rollup/plugin-typescript";
+import typescript from "@rollup/plugin-typescript";
 //import replace from "@rollup/plugin-replace";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
@@ -25,12 +25,13 @@ import njk from "./rollup-plugins/import-njk";
 // templates = JSON.stringify(templates);
 
 export default {
-  input: "src/index.js",
+  input: "src/index.ts",
   output: {
     dir: "dist",
     format: "cjs",
   },
   plugins: [
+    typescript(),
     resolve(),
     commonjs(),
     /* replace({
@@ -40,6 +41,6 @@ export default {
       preventAssignment: true,
     }), */
     njk(),
-    //typescript(),
+    
   ],
 };
